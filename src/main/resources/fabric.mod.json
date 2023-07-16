@@ -1,35 +1,31 @@
 {
   "schemaVersion": 1,
-  "id": "bigendcitiesmod",
+  "id": "morestructuresmod",
   "version": "${version}",
 
-  "name": "Bigger Better End Cities",
-  "description": "Majorly increases the size of end cities. with config.",
+  "name": "More Structures Mod",
+  "description": "Majorly increases the size and number of most structures.",
   "authors": [
     "architects"
   ],
-  "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
-  },
 
-  "license": "GPL-3",
-  "icon": "assets/modid/icon.png",
+  "license": "ARR",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.architects.BigEndCitiesMod.BigEndCitiesMod"
+      "net.architects.morestructuresmod.MoreStructuresMod"
     ]
   },
   "mixins": [
-    "bigendcitiesmod.mixins.json"
+    "morestructuresmod.mixins.json"
   ],
+  "accessWidener": "morestructuresmod.accesswidener",
 
   "depends": {
     "fabricloader": ">=0.14.9",
     "fabric-api": "*",
-    "minecraft": "~1.19.2",
+    "minecraft": "~1.20.1",
     "java": ">=17"
   },
   "suggests": {

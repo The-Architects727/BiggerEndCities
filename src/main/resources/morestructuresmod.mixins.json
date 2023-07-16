@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.architects.morestructuresmod.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "EndCityBridgeMixin",
+    "StructureSetsMixin",
+    "RandomSpreadStructurePlacmentMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
