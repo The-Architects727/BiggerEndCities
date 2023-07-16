@@ -84,5 +84,5 @@ publishing {
 	}
 }
 loom {
-	accessWidenerPath = file("src/main/resources/morestructuresmod.accesswidener")
+	accessWidenerPath = file("src/main/resources/bigendcitiesmod.accesswidener")
 }
