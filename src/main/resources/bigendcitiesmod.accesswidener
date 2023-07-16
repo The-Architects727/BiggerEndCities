@@ -1,0 +1,13 @@
+accessWidener v1 named
+
+mutable field net/minecraft/structure/StructureSetKeys END_CITIES Lnet/minecraft/registry/RegistryKey;
+accessible field net/minecraft/registry/RegistryKey value Lnet/minecraft/util/Identifier;
+
+accessible field net/minecraft/world/gen/chunk/placement/RandomSpreadStructurePlacement spacing I
+mutable field net/minecraft/world/gen/chunk/placement/RandomSpreadStructurePlacement spacing I
+
+accessible field net/minecraft/world/gen/chunk/placement/RandomSpreadStructurePlacement separation I
+mutable field net/minecraft/world/gen/chunk/placement/RandomSpreadStructurePlacement separation I
+
+accessible field net/minecraft/world/gen/chunk/placement/RandomSpreadStructurePlacement spreadType Lnet/minecraft/world/gen/chunk/placement/SpreadType;
+mutable field net/minecraft/world/gen/chunk/placement/RandomSpreadStructurePlacement spreadType Lnet/minecraft/world/gen/chunk/placement/SpreadType;

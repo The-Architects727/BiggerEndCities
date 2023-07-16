@@ -33,9 +33,10 @@ public class ModConfigs {
         configs.addKeyValuePair(new Pair<>("Maximum Depth", 8), "Higher means more Junctions");
         configs.addKeyValuePair(new Pair<>("Maximum Ships", 1), "Best value is 10 to allow for many ships");
         configs.addKeyValuePair(new Pair<>("Maximum Middle Towers in a stack", 2), "Best Value is 3-6");
-        configs.addKeyValuePair(new Pair<>("Bridge Lengths choose between: short, medium, long", "short"), "Best for large cities is medium");
-        configs.addKeyValuePair(new Pair<>("Prioratize Branching. setting this to true will make more branches occur. can cause more overlap. Best is true", false), "");
-        configs.addKeyValuePair(new Pair<>("More Loot Rooms. this will make more 3 layer buildings spawn. this will also make the cities much taller. Best is true", false), "");
+        configs.addKeyValuePair(new Pair<>("Bridge Lengths", "short"), "Choose between: short, medium, long. Best for large cities is medium");
+        configs.addKeyValuePair(new Pair<>("Prioritize Branching", false), "Setting this to true will make more branches occur. Can cause more overlap. Best is true");
+        configs.addKeyValuePair(new Pair<>("More Loot Rooms", false), "This will make more 3 layer buildings spawn. This will also make the cities much taller. Best is true");
+
     }
 
     private static void assignConfigs() {
@@ -46,11 +47,11 @@ public class ModConfigs {
 
         MAX_FAT_TOWERS = CONFIG.getOrDefault("Maximum Middle Towers in a stack", 8);
 
-        String bridge_Length_String = CONFIG.getOrDefault("Bridge Lengths choose between: short, medium, long", "short");
+        String bridge_Length_String = CONFIG.getOrDefault("Bridge Lengths", "short");
 
-        MoreBranches = CONFIG.getOrDefault("Prioratize Branching. setting this to true will make more branches occur. can cause more overlap", false);
+        MoreBranches = CONFIG.getOrDefault("Prioritize Branching", false);
 
-        MoreLootRooms = CONFIG.getOrDefault("More Loot Rooms. this will make more 3 layer buildings spawn. this will also make the cities much taller", false);
+        MoreLootRooms = CONFIG.getOrDefault("More Loot Rooms", false);
 
 
         if(MAX_DEPTH_PRE < 8) {
