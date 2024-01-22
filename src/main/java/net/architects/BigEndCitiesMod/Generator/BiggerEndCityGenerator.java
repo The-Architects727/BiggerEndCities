@@ -14,6 +14,7 @@ import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.mob.ShulkerEntity;
+import net.minecraft.inventory.LootableInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootTables;
@@ -31,27 +32,33 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 
 public class BiggerEndCityGenerator {
+
+    private static boolean add_depth =  false;
     private static final int MIN_DEPTH = 16;
 
     private static int ships_generated = 0;
     static final Part BUILDING = new Part() {
         public void init() {
         }
-        private boolean genship(Random random) {
+        private boolean genship(Random random, int depth) {
             if(ModConfigs.MAX_SHIPS > ships_generated) {
 //                if(random.nextBoolean()) {
 //                    return random.nextBoolean();
 //                } else {
 //                    return false;
 //                }
-                return random.nextBoolean();
-            } else {
-                return false;
+                return depth < ModConfigs.MAX_DEPTH - 1;
             }
+            return true;
         }
 
         public boolean create(StructureTemplateManager manager, int depth, Piece root, BlockPos pos, List<StructurePiece> pieces, Random random) {
-            if (depth > ModConfigs.MAX_DEPTH || genship(random)) {
+            if(!add_depth){
+                depth -= 10;
+                add_depth = true;
+            }
+
+            if (depth > ModConfigs.MAX_DEPTH/* || genship(random, depth)*/) {
                 return false;
             } else {
                 BlockRotation blockRotation = root.getPlacementData().getRotation();
@@ -134,12 +141,25 @@ public class BiggerEndCityGenerator {
     }
 
     public static void addPieces(StructureTemplateManager structureTemplateManager, BlockPos pos, BlockRotation rotation, List<StructurePiece> pieces, Random random) {
+
+
         FAT_TOWER.init();
         BUILDING.init();
         BRIDGE_PIECE.init();
         SMALL_TOWER.init();
         Piece piece = addPiece(pieces, new Piece(structureTemplateManager, "base_floor", pos, rotation, true));
         piece = addPiece(pieces, createPiece(structureTemplateManager, piece, new BlockPos(-1, 0, -1), "second_floor_1", rotation, false));
+        if(ModConfigs.MoreLootRooms) {
+            if(random.nextBoolean()) {
+                piece = addPiece(pieces, createPiece(structureTemplateManager, piece, new BlockPos(-1, 4, -1), "third_floor_1", rotation, false));
+            }
+            if(random.nextBoolean()) {
+                piece = addPiece(pieces, createPiece(structureTemplateManager, piece, new BlockPos(-1, 4, -1), "third_floor_1", rotation, false));
+            }
+            if(random.nextBoolean()) {
+                piece = addPiece(pieces, createPiece(structureTemplateManager, piece, new BlockPos(-1, 4, -1), "third_floor_1", rotation, false));
+            }
+        }
         piece = addPiece(pieces, createPiece(structureTemplateManager, piece, new BlockPos(-1, 4, -1), "third_floor_1", rotation, false));
         piece = addPiece(pieces, createPiece(structureTemplateManager, piece, new BlockPos(-1, 8, -1), "third_roof", rotation, true));
         createPart(structureTemplateManager, SMALL_TOWER, 1, piece, (BlockPos)null, pieces, random);
@@ -157,12 +177,13 @@ public class BiggerEndCityGenerator {
             List<StructurePiece> list = Lists.newArrayList();
             if (piece.create(manager, depth, parent, pos, list, random)) {
                 boolean bl = false;
-                int i = random.nextInt();
+//                int i = random.nextInt();
                 Iterator var10 = list.iterator();
 
                 while(var10.hasNext()) {
                     StructurePiece structurePiece = (StructurePiece)var10.next();
-                    structurePiece.setChainLength(i);
+                    //Math.max(parent.getChainLength() - 1, 0)
+                    structurePiece.setChainLength(Math.max(parent.getChainLength() - (random.nextInt()/ModConfigs.MAX_DEPTH), 0));
                     StructurePiece structurePiece2 = StructurePiece.firstIntersecting(pieces, structurePiece.getBoundingBox());
                     if (structurePiece2 != null && structurePiece2.getChainLength() != parent.getChainLength()) {
                         bl = true;
@@ -198,7 +219,7 @@ public class BiggerEndCityGenerator {
                 BlockRotation blockRotation = root.getPlacementData().getRotation();
                 Piece piece = BiggerEndCityGenerator.addPiece(pieces, BiggerEndCityGenerator.createPiece(manager, root, new BlockPos(3 + random.nextInt(2), -3, 3 + random.nextInt(2)), "tower_base", blockRotation, true));
                 piece = BiggerEndCityGenerator.addPiece(pieces, BiggerEndCityGenerator.createPiece(manager, piece, new BlockPos(0, 7, 0), "tower_piece", blockRotation, true));
-                Piece piece2 = random.nextInt(3) == 0 ? piece : null;
+                Piece piece2 = random.nextInt(4) >= 1 ? piece : null;
                 int i = 1 + random.nextInt(3);
 
                 for(int j = 0; j < i; ++j) {
@@ -272,6 +293,15 @@ public class BiggerEndCityGenerator {
                         ships_generated++;
                     } else {
                         this.shipGenerated = true;
+                    }
+                } else if (!this.shipGenerated && depth >= ModConfigs.MAX_DEPTH - 1) {
+                    if(random.nextInt(8) > 2) {
+                        BiggerEndCityGenerator.addPiece(pieces, BiggerEndCityGenerator.createPiece(manager, piece, new BlockPos(-8 + random.nextInt(8), j, -70 + random.nextInt(10)), "ship", blockRotation, true));
+                        if (ships_generated < ModConfigs.MAX_SHIPS) {
+                            ships_generated++;
+                        } else {
+                            this.shipGenerated = true;
+                        }
                     }
                 } else if (!BiggerEndCityGenerator.createPart(manager, BiggerEndCityGenerator.BUILDING, depth + 1, piece, new BlockPos(-3, j + 1, -11), pieces, random)) {
                     return false;
@@ -353,7 +383,7 @@ public class BiggerEndCityGenerator {
             if (metadata.startsWith("Chest")) {
                 BlockPos blockPos = pos.down();
                 if (boundingBox.contains(blockPos)) {
-                    LootableContainerBlockEntity.setLootTable(world, random, blockPos, LootTables.END_CITY_TREASURE_CHEST);
+                    LootableInventory.setLootTable(world, random, blockPos, LootTables.END_CITY_TREASURE_CHEST);
                 }
             } else if (boundingBox.contains(pos) && World.isValid(pos)) {
                 if (metadata.startsWith("Sentry")) {

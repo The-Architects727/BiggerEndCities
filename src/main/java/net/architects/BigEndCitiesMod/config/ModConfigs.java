@@ -30,28 +30,28 @@ public class ModConfigs {
     }
 
     private static void createConfigs() {
-        configs.addKeyValuePair(new Pair<>("Maximum Depth", 8), "Higher means more Junctions");
-        configs.addKeyValuePair(new Pair<>("Maximum Ships", 1), "Best value is 10 to allow for many ships");
-        configs.addKeyValuePair(new Pair<>("Maximum Middle Towers in a stack", 2), "Best Value is 3-6");
-        configs.addKeyValuePair(new Pair<>("Bridge Lengths", "short"), "Choose between: short, medium, long. Best for large cities is medium");
-        configs.addKeyValuePair(new Pair<>("Prioritize Branching", false), "Setting this to true will make more branches occur. Can cause more overlap. Best is true");
-        configs.addKeyValuePair(new Pair<>("More Loot Rooms", false), "This will make more 3 layer buildings spawn. This will also make the cities much taller. Best is true");
+        configs.addKeyValuePair(new Pair<>("MaximumDepth", 8), "Higher means more Junctions");
+        configs.addKeyValuePair(new Pair<>("MaximumShips", 1), "Best value is 10 to allow for many ships");
+        configs.addKeyValuePair(new Pair<>("MaximumMiddleTowers", 2), "Best Value is 3-6");
+        configs.addKeyValuePair(new Pair<>("BridgeLength", "short"), "Choose between: short, medium, long. Best for large cities is medium");
+        configs.addKeyValuePair(new Pair<>("PrioritizeBranching", false), "Setting this to true will make more branches occur. Can cause more overlap. Best is true");
+        configs.addKeyValuePair(new Pair<>("MoreLootRooms", false), "This will make more 3 layer buildings spawn. This will also make the cities much taller. Best is true");
 
     }
 
     private static void assignConfigs() {
 
-        MAX_DEPTH_PRE = CONFIG.getOrDefault("Maximum Depth", 8);
+        MAX_DEPTH_PRE = CONFIG.getOrDefault("MaximumDepth", 8);
 
-        MAX_SHIPS = CONFIG.getOrDefault("Maximum Ships", 8);
+        MAX_SHIPS = CONFIG.getOrDefault("MaximumShips", 8);
 
-        MAX_FAT_TOWERS = CONFIG.getOrDefault("Maximum Middle Towers in a stack", 8);
+        MAX_FAT_TOWERS = CONFIG.getOrDefault("MaximumMiddleTowers", 8);
 
-        String bridge_Length_String = CONFIG.getOrDefault("Bridge Lengths", "short");
+        String bridge_Length_String = CONFIG.getOrDefault("BridgeLength", "short");
 
-        MoreBranches = CONFIG.getOrDefault("Prioritize Branching", false);
+        MoreBranches = CONFIG.getOrDefault("PrioritizeBranching", false);
 
-        MoreLootRooms = CONFIG.getOrDefault("More Loot Rooms", false);
+        MoreLootRooms = CONFIG.getOrDefault("MoreLootRooms", false);
 
 
         if(MAX_DEPTH_PRE < 8) {
